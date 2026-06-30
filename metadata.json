@@ -1,0 +1,6 @@
+{
+  "name": "Samaj Shakti",
+  "description": "Empowers local communities through collaborative task management, resource sharing, AI diagnostics, and civic engagement.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

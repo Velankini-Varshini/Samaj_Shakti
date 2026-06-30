@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with community reputation and locality",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "name": { "type": "string", "description": "Full name of the user" },
+        "email": { "type": "string", "description": "Email address of the user" },
+        "locality": { "type": "string", "description": "The locality or sector the user belongs to" },
+        "reputation": { "type": "integer", "description": "User's reputation points earned from reporting and upvoting" },
+        "reportsCount": { "type": "integer", "description": "Number of issues reported by this user" },
+        "votesGiven": { "type": "integer", "description": "Number of upvotes given by this user" },
+        "badge": { "type": "string", "description": "Current reputation badge level" },
+        "role": { "type": "string", "description": "Role of the user (member, coordinator, admin)" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" }
+      },
+      "required": ["uid", "name", "email", "locality"]
+    },
+    "Issue": {
+      "title": "Issue",
+      "description": "A reported civic issue with auto-category, priority, and location",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique issue ID" },
+        "title": { "type": "string", "description": "Title describing the issue" },
+        "desc": { "type": "string", "description": "Detailed description of the issue" },
+        "loc": { "type": "string", "description": "Physical location description" },
+        "locality": { "type": "string", "description": "The sector or locality this issue belongs to" },
+        "lat": { "type": "number", "description": "Latitude coordinate" },
+        "lng": { "type": "number", "description": "Longitude coordinate" },
+        "cat": { "type": "string", "description": "Issue category (e.g., Road Damage, Water Leakage, Streetlight, Waste Management, Infrastructure, Other)" },
+        "priority": { "type": "string", "description": "Priority level (low, medium, high, critical)" },
+        "status": { "type": "string", "description": "Resolution status (open, in-progress, resolved)" },
+        "reporterName": { "type": "string", "description": "Display name of the reporter" },
+        "reporterUid": { "type": "string", "description": "Firebase Auth UID of the reporter" },
+        "votes": { "type": "integer", "description": "Count of citizen upvotes" },
+        "upvoters": { "type": "array", "description": "Array of user UIDs who upvoted" },
+        "time": { "type": "integer", "description": "Timestamp of creation in milliseconds" },
+        "aiAnalysis": { "type": "string", "description": "Detailed analysis output from Gemini" },
+        "authority": { "type": "string", "description": "Estimated public authority responsible for fixing the issue" },
+        "imageUrl": { "type": "string", "description": "Optional URL to uploaded issue image or a preset test sample image" },
+        "videoUrl": { "type": "string", "description": "Optional URL to uploaded issue video" },
+        "isVerified": { "type": "boolean", "description": "Whether verified by community coordinators" },
+        "verifiers": { "type": "array", "description": "Array of coordinator UIDs who verified this" }
+      },
+      "required": ["id", "title", "desc", "locality", "cat", "priority", "status", "reporterName", "time"]
+    },
+    "CommunityMessage": {
+      "title": "CommunityMessage",
+      "description": "Message shared on the locality-specific public discussion board",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique message ID" },
+        "locality": { "type": "string", "description": "The locality discussion board this belongs to" },
+        "name": { "type": "string", "description": "Name of the poster" },
+        "uid": { "type": "string", "description": "Firebase Auth UID of the poster" },
+        "text": { "type": "string", "description": "Content of the comment or discussion" },
+        "timeString": { "type": "string", "description": "Formated local time string" },
+        "timestamp": { "type": "integer", "description": "Epoch timestamp in milliseconds" },
+        "likes": { "type": "integer", "description": "Number of likes" },
+        "likers": { "type": "array", "description": "Array of user UIDs who liked this" },
+        "official": { "type": "boolean", "description": "Is this message an official announcement by a coordinator" }
+      },
+      "required": ["id", "locality", "name", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/issues/{issueId}": {
+      "schema": "Issue",
+      "description": "Civic issues reported across all areas"
+    },
+    "/community_messages/{messageId}": {
+      "schema": "CommunityMessage",
+      "description": "Local discussion messages"
+    }
+  }
+}
